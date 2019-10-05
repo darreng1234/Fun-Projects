@@ -7,7 +7,6 @@ def deal_hand(max_dice):
     for i in range(0,max_dice,1):
         die_value = roll_die() #generate the random num
         hand.append(die_value) #append to list
-    dice.display_hand(hand, 5)  
     return hand  
 
 def roll_die():
@@ -74,34 +73,43 @@ def display_rank(rank):
     elif rank == 6:
         print('Five of a kind')
 
-def guessWinner(rank_player,dealer_rank):
-    status = [0,0,0]
-    
-    if(rank_player == dealer_rank):
-        print("** Draw! **") 
-        status[0] = status[0]+1
-    elif(rank_player > dealer_rank):
+def guessWinner(rank_player,rank_dealer):
+    if(rank_player == rank_dealer):
+        print("** Draw! **")
+    elif(rank_player > rank_dealer):
         print("** Player Wins! **")
-        status[1] = status[1]+1
     else:
         print("** Dealer Wins! **") 
-        status[2] = status[2]+1
-    return status
     
+    
+ 
+def gameSummary(rank_player,rank_dealer):
+    global draw 
+    global player 
+    global dealer 
+    
+    if(rank_player == rank_dealer):
+        draw+=1
+    elif(rank_player > rank_dealer):
+        player+=1
+    else:
+        dealer+=1 
+    
+       
     
 def display_details():
         print("File:test.py \nAuthor: Batman\nStud ID:0123456X \nEmailID: test@gmail.com\nThis is my own work")
-    
-
-
+        
 def playGame():
     print("Player's Hand:\n")
     hand_player = deal_hand(5)
+    dice.display_hand(hand_player, 5)
     rank_player = rank_hand(hand_player)   
        
     
     print("Dealer's Hand:\n")
     hand_dealer = deal_hand(5)
+    dice.display_hand(hand_dealer, 5)
     rank_dealer = rank_hand(hand_dealer)
     
     print("Player has... ")
@@ -110,24 +118,24 @@ def playGame():
     display_rank(rank_dealer)
     
     guessWinner(rank_player,rank_dealer)
+    gameSummary(rank_player,rank_dealer)
     
-    
-def endGame():
-    print("End Of Game")    
-    
-while():
-user_choice = input("Would you like to play dice poker [y|n]? /nPlease enter either 'y' or 'n'")
-if user_choice == 'y':
-    playGame()
-elif user_choice == 'n':
-    print("No worries... another time perhaps...:")
-else:
-    print("Please enter either 'y' or 'n'")
-
-
-
-
-
+      
+draw = 0  
+player = 0
+dealer = 0     
+display_details()  
+while(True):
+    user_choice = input("Would you like to play dice poker [y|n]? \nPlease enter either 'y' or 'n'\n")
+    if user_choice == 'y':
+        playGame()
+    elif user_choice == 'n':
+        print(draw, " Games have been drawn\n",player,"Games have been won by the Player \n",dealer,"Games have been won by the Dealer\n")
+        print("No worries... another time perhaps...:")
+        print("End Of Game")
+        break
+    else:
+        print("Please enter either 'y' or 'n'")
 
     
     
